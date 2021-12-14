@@ -60,44 +60,48 @@ public class AI : MonoBehaviour
         List<int> candidates = new List<int>();
         foreach(KeyValuePair<int, float> aiIndex in aiMap)
         {
+            
             // If they are a field tile
             // AND if they are in the influence map for the passed in type
-            if (WorldGrid.Instance.GetTileType(aiIndex.Key) == GridType.FIELD && influenceMap.CheckIndexOnInfluenceMap(name, aiIndex.Key) != -1)
+            if (WorldGrid.Instance.GetTileType(aiIndex.Key) == GridType.FIELD)
             {
-                if(highest)
+                float tempInfluence = influenceMap.CheckIndexOnInfluenceMap(name, aiIndex.Key);
+                if (tempInfluence != -1f)
                 {
-                    if(aiIndex.Value > influence)
+                    if (highest)
                     {
-                        candidates.Clear();
-                        candidates.Add(aiIndex.Key);
-                        influence = aiIndex.Value;
+                        if (tempInfluence > influence)
+                        {
+                            candidates.Clear();
+                            candidates.Add(aiIndex.Key);
+                            influence = tempInfluence;
+                        }
+                        else if (tempInfluence == influence)
+                        {
+                            candidates.Add(aiIndex.Key);
+                        }
                     }
-                    else if (aiIndex.Value == influence)
+                    else
                     {
-                        candidates.Add(aiIndex.Key);
-                    }
-                }
-                else
-                {
-                    if(aiIndex.Value < influence)
-                    {
-                        candidates.Clear();
-                        candidates.Add(aiIndex.Key);
-                        influence = aiIndex.Value;
-                    }
-                    else if (aiIndex.Value == influence)
-                    {
-                        candidates.Add(aiIndex.Key);
+                        if (tempInfluence < influence)
+                        {
+                            candidates.Clear();
+                            candidates.Add(aiIndex.Key);
+                            influence = tempInfluence;
+                        }
+                        else if (tempInfluence == influence)
+                        {
+                            candidates.Add(aiIndex.Key);
+                        }
                     }
                 }
             }
         }
         // If there are no valid indices, return early
         if (influence == 0f || influence == -1f) return result;
-        // Randomly choose one from the best candidates
+
         int randomIndex = Random.Range(0, candidates.Count);
         result = candidates[randomIndex];
-
         return result;
     }
 }

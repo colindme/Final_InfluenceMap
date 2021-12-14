@@ -3772,8 +3772,8 @@ MonoBehaviour:
   closeButton: {fileID: 2057584864}
   aiButton: {fileID: 1483544914}
   foodButton: {fileID: 1744476336}
-  oreButton: {fileID: 1236237815}
-  logButton: {fileID: 138917012}
+  oreButton: {fileID: 138917012}
+  logButton: {fileID: 1236237815}
 --- !u!4 &1223885341
 Transform:
   m_ObjectHideFlags: 0
